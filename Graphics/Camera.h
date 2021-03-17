@@ -27,6 +27,9 @@ public:
 	glm::mat4& GetProjection();
 
 	void Lookat(glm::vec3 target);
+protected:
+
+	void Calculatefront();
 
 protected:
 	glm::vec3 m_camPosition = glm::vec3(0, 2, -2);

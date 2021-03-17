@@ -51,12 +51,7 @@ void Camera::Update(float deltaTime)
 		if (m_camPitch > 85.0f) m_camPitch = 85.0f;
 		if (m_camPitch < -85.0f) m_camPitch = -85.0f;
 
-
-		glm::vec3 front;
-		front.x = glm::cos(glm::radians(m_camYaw)) * glm::cos(glm::radians(m_camPitch));
-		front.y = glm::sin(glm::radians(m_camPitch));
-		front.z = glm::sin(glm::radians(m_camYaw)) * glm::cos(glm::radians(m_camPitch));
-		m_camfront = glm::normalize(front);
+		Calculatefront();
 	}
 
 
@@ -76,6 +71,8 @@ void Camera::SetYawPitchRoll(float yaw, float pitch, float roll)
 	m_camYaw = yaw;
 	m_camPitch = pitch;
 	m_camRoll = roll;
+
+	Calculatefront();
 }
 
 void Camera::SetProjection(float fov, float aspect, float near, float far)
@@ -118,4 +115,16 @@ void Camera::Lookat(glm::vec3 target)
 	glm::vec3 dir = glm::normalize(target - m_camPosition);
 	m_camPitch = glm::degrees(glm::asin(dir.y));
 	m_camYaw = glm::degrees(atan2(dir.y, dir.x));
+
+	Calculatefront();
+}
+
+void Camera::Calculatefront()
+{
+
+	glm::vec3 front;
+	front.x = glm::cos(glm::radians(m_camYaw)) * glm::cos(glm::radians(m_camPitch));
+	front.y = glm::sin(glm::radians(m_camPitch));
+	front.z = glm::sin(glm::radians(m_camYaw)) * glm::cos(glm::radians(m_camPitch));
+	m_camfront = glm::normalize(front);
 }
